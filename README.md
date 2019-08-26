@@ -139,16 +139,23 @@ access_token_secret = 'ddddddddddddddddddddddddddddddddddddddddddddd'
 Make sure you have a Slack account that can be used for your gateway information and a channel where the information will be posted. 
 Follow the tutorial <a href="https://api.slack.com/incoming-webhooks">"Getting started with Incoming Webhooks"</a>
 
-If all things went will you end up with your Incoming Webhook URL. You need this url to post messages from your Python program. Save the credentials in the file: "slack_auth.py" that is located in the same directory where the monitor script is located:
+If all things went will you end up with your Incoming Webhook URL. You need this url to post messages from your Python program on Slack. Save the credentials in the file: "slack_auth.py" that is located in the same directory where the monitor script is located:
 ```
 # Credentials for Slack API
 webhook_url = 'https://hooks.slack.com/services/aaaaaaaaa/bbbbbbbbb/cccccccccccccccccccccccc'
 ```
+### Setup crontab
+To execute the script crontab is being used. As crontab is a service in a Linux system that needs to be updated after that the configuration is altered we will use the command "crontab -e". This will open the default editor for your Linux OS with the crontab configuration file. After that the edits are saved and editor is closed the crontab will be updated with the new configuration.
 
-
-
-
-
+Start editing the crontab configuration file:
+```
+crontab -e
+```
+Add the following line at the end of your crontab file. Make sure that <gateway-ID> is replaced by the gateway-ID of the gateway that you will monitor:
+```
+*/5 * * * * ~/gwstatus/gwmonitor.sh <gateway-ID> 300 >> /var/log/gwmonitor.log 2>&1
+```
+The part ">> /var/log/gwmonitor.log 2>&1" will ensure that outpur from the script is stored in a logfile for anlysis afterwards.
 
 
 
