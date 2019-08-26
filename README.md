@@ -113,7 +113,7 @@ Your scripts are now setup to be executed.
 Before we run the script we have to setup access to Twitter and Slack and collect information from TTN about the gateway we will be monitoring. Keep track of all te information in a small ASCII logbook on, for example, notepad++. We than can simply copy all information to where we need it.
 ### Gateway-ID
 The gateway-ID is obtained trough Console at TTN. 
-
+![TTN_Console_GW-ID](images/TTNConsoleGWID.png "TTN Console Gateway-IDs")
 
 
 
