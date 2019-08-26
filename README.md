@@ -91,6 +91,10 @@ copy the directory "gwstatus" to the location where crontab will execute it from
 ```
 cp ~/TTN-Gateway-monitor/gwstatus/* ~/gwstatus/
 ```
+Go to the directory where the script is located: 
+```
+cd ~/gwstatus/
+```
 Make the script executable:
 ```
 chmod +x gwmonitor.sh 
@@ -101,6 +105,29 @@ pip install requests
 pip install dateutils
 pip install Twython
 ```
-Your scripts are no setup to be executed.
+Your scripts are now setup to be executed.
 
-## 
+# Configuration
+
+## Prerequisites
+Before we run the script we have to setup access to Twitter and Slack and collect information from TTN about the gateway we will be monitoring. Keep track of all te information in a small ASCII logbook on, for example, notepad++. We than can simply copy all information to where we need it.
+### Gateway-ID
+The gateway-ID is obtained trough Console at TTN. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Modifications(hacks)
+In the highly likely situation where you want to tailor the script to your owen needs I provide some hints:
+1. 
