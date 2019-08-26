@@ -124,7 +124,26 @@ Copy the Gateway ID from TTN console to your notepad.
 ```
 This gateway ID will be used as argument when calling the gateway monitor script.
 ### Twitter API credentials
-To make tne neccessary preparations follw the tutorial <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api">"Getting started with the Twitter API"</a> and follow the instructions at <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/3">"Apply for a Twitter developer account"</a> and <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/4">"Create a Twitter application"</a>
+Make sure you have a Twitter account that can be used for your gateway information.
+Follow the tutorial <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api">"Getting started with the Twitter API"</a> and follow the instructions at <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/3">"Apply for a Twitter developer account"</a> and <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/4">"Create a Twitter application"</a>
+
+If all things went will you end up with your Consumer API key, Consumer API secret key, Access token, and Access token secret. You need these four keys to connect to your Twitter account from your Python program. Save the credentials in the file: "twitter_auth.py" that is located in the same directory where the monitor script is located:
+```
+# Credentials for Twitter API
+consumer_key        = 'aaaaaaaaaaaaaaaaaaaaaaaaa'
+consumer_secret     = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+access_token        = 'cccccccccccccccccccccccccccccccccccccccccccccccccc'
+access_token_secret = 'ddddddddddddddddddddddddddddddddddddddddddddd'
+```
+### Slack webhook credentials
+Make sure you have a Slack account that can be used for your gateway information and a channel where the information will be posted. 
+Follow the tutorial <a href="https://api.slack.com/incoming-webhooks">"Getting started with Incoming Webhooks"</a>
+
+If all things went will you end up with your Incoming Webhook URL. You need this url to post messages from your Python program. Save the credentials in the file: "slack_auth.py" that is located in the same directory where the monitor script is located:
+```
+# Credentials for Slack API
+webhook_url = 'https://hooks.slack.com/services/aaaaaaaaa/bbbbbbbbb/cccccccccccccccccccccccc'
+```
 
 
 
