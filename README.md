@@ -23,6 +23,16 @@ A gateway is assumed to be "down" or "off-line" when the gateway is not "heard" 
 - When the observed gateway is found to be "up" and the previous state ws not down no message is sent.
 - When the observed gateway is found to be "down" a message is sent on Twitter and Slack that states for how long the gateway is down. This message is repeated every 30 minutes on Slack (Not Twitter) as a reminder.
 - When the observed gateway is found to be "up" after being down, a message is sent on Twitter an Slack that states when the gateway has come back on-line and for how long the gateway was off-line.
+
+Tweet when a gateway is observed to be "down":
+![DownTweet](images/Tweet_Down-message.png "Tweet of down-message")
+
+Tweet when a gateway is observed to be "up":
+![UpTweet](images/Tweet_Up-message.png "Tweet of up-message")
+
+Tweet when a testing the script:
+![TestTweet](images/Tweet_testMessage.png "Tweet of test-message")
+
 # Implementation
 The TTN V2-stack is offering gateway status in JSON-format over the link: "http://noc.thethingsnetwork.org:8085/api/v2/gateways/<gateway_id>". The JSON struct delivered is presented below:
 ```
