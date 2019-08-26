@@ -74,5 +74,14 @@ Periodic exectution of the script is implemented usig crontab that is available 
 
 To allow multiple gateways to be monitored using a single script arguments are mandatory to specifiy the gateway-ID and teh interval at which the scipt is called form crontab. The syntax of the monitor script is:
 ```
-    ./gwmonitor <gateway_name> <cron_interval_seconds>
+./gwmonitor <gateway_name> <cron_interval_seconds>
 ```
+# Installation
+Download the gateway monitor script repository. 
+```
+git clone https://github.com/BestSolution-at/fixtar.git
+```
+
+## Linux host OS
+
+## 
