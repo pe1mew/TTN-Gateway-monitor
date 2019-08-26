@@ -60,15 +60,12 @@ The script is performing the following actions:
    - Read history data from previous execution of script
      - When file does not exist (at first use) create an new file with default values
      - Verify format of history file; when not OK update history file
-These steps are visualised in the following flowchart:
 
 ![File handling](images/FlowChart_FileHandling.png "Handling of history data in script")
 
 2. Generate intermediate results 
 3. Retrieve last information from TTN
 4. Analyse information and send messages to Twitter and Slack.
-
-These steps are visualised in the following flowchart:
 
 ![Functional description](images/FlowChart_Functional.png "Functional description of script")
 
