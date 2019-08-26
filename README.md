@@ -112,16 +112,50 @@ Your scripts are now setup to be executed.
 ## Prerequisites
 Before we run the script we have to setup access to Twitter and Slack and collect information from TTN about the gateway we will be monitoring. Keep track of all te information in a small ASCII logbook on, for example, notepad++. We than can simply copy all information to where we need it.
 ### Gateway-ID
-The gateway-ID is obtained trough Console at TTN. 
+The gateway-ID is obtained trough console at TTN as can be seen in the following example:
 
+![TTN_Console_GW-ID](images/TTNConsoleGWID.png "TTN Console Gateway-IDs")
 
+A gateway ID can be in two formats depending on the packet forwarder used by the gateway:
+1. Packet forwarders that connect using the Semtech UDP protocol (such as the Semtech UDP Packet Forwarder). These gateways will be know as "eui-b827ebfffe87bd11" for the Gateway ID and shall be identified as such with the scipt.
+2. Packet forwarders that connect using the new TTN Gateway Connector protocol (such as the TTN Packet Forwarder). These gateways will be know with the 'human readable ID'such as: "han_gateway_1" for the Gateway ID and shall be identified as such with the scipt.
+```
+Copy the Gateway ID from TTN console to your notepad.
+```
+This gateway ID will be used as argument when calling the gateway monitor script.
+### Twitter API credentials
+Make sure you have a Twitter account that can be used for your gateway information.
+Follow the tutorial <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api">"Getting started with the Twitter API"</a> and follow the instructions at <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/3">"Apply for a Twitter developer account"</a> and <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/4">"Create a Twitter application"</a>
 
+If all things went will you end up with your Consumer API key, Consumer API secret key, Access token, and Access token secret. You need these four keys to connect to your Twitter account from your Python program. Save the credentials in the file: "twitter_auth.py" that is located in the same directory where the monitor script is located:
+```
+# Credentials for Twitter API
+consumer_key        = 'aaaaaaaaaaaaaaaaaaaaaaaaa'
+consumer_secret     = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+access_token        = 'cccccccccccccccccccccccccccccccccccccccccccccccccc'
+access_token_secret = 'ddddddddddddddddddddddddddddddddddddddddddddd'
+```
+### Slack webhook credentials
+Make sure you have a Slack account that can be used for your gateway information and a channel where the information will be posted. 
+Follow the tutorial <a href="https://api.slack.com/incoming-webhooks">"Getting started with Incoming Webhooks"</a>
 
+If all things went will you end up with your Incoming Webhook URL. You need this url to post messages from your Python program on Slack. Save the credentials in the file: "slack_auth.py" that is located in the same directory where the monitor script is located:
+```
+# Credentials for Slack API
+webhook_url = 'https://hooks.slack.com/services/aaaaaaaaa/bbbbbbbbb/cccccccccccccccccccccccc'
+```
+### Setup crontab
+To execute the script crontab is being used. As crontab is a service in a Linux system that needs to be updated after that the configuration is altered we will use the command "crontab -e". This will open the default editor for your Linux OS with the crontab configuration file. After that the edits are saved and editor is closed the crontab will be updated with the new configuration.
 
-
-
-
-
+Start editing the crontab configuration file:
+```
+crontab -e
+```
+Add the following line at the end of your crontab file. Make sure that <gateway-ID> is replaced by the gateway-ID of the gateway that you will monitor:
+```
+*/5 * * * * ~/gwstatus/gwmonitor.sh <gateway-ID> 300 >> /var/log/gwmonitor.log 2>&1
+```
+The part ">> /var/log/gwmonitor.log 2>&1" will ensure that outpur from the script is stored in a logfile for anlysis afterwards.
 
 
 
