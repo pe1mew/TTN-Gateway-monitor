@@ -52,3 +52,9 @@ From this struct the field "time", "rx_ok" and "tx_in" are being used.
 - "time", is the epoch time (UTC!) in seconds at which the last message was received from the gateway by the V2-stack
 - "rx_ok", is the total number of uplink packets received from the gateway at the time stated in "time"
 - "tx_in", is the total number of downlink packets transmitted to the gateway at the time stated in "time"
+
+
+
+![File handling](images/FlowChart_FileHandling.png "Handling of history data in script")
+
+![Functional description](images/FlowChart_Functional.png "Functional description of script")
