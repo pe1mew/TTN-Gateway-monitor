@@ -77,11 +77,30 @@ To allow multiple gateways to be monitored using a single script arguments are m
 ./gwmonitor <gateway_name> <cron_interval_seconds>
 ```
 # Installation
-Download the gateway monitor script repository. 
+## Prepare the Linux host OS
+Make sure the following programs are installed:
+- github
+- python
+## Install on Linux host OS
+_Preferrably start in the home directory of the user that will execute crontab._ 
+Download the repository of the gateway monitor script:
 ```
-git clone https://github.com/BestSolution-at/fixtar.git
+git clone https://github.com/pe1mew/TTN-Gateway-monitor.git
 ```
-
-## Linux host OS
+copy the directory "gwstatus" to the location where crontab will execute it from: 
+```
+cp ~/TTN-Gateway-monitor/gwstatus/* ~/gwstatus/
+```
+Make the script executable:
+```
+chmod +x gwmonitor.sh 
+```
+Install mandatory python libraries: requests, dateutils, Twython
+```
+pip install requests
+pip install dateutils
+pip install Twython
+```
+Your scripts are no setup to be executed.
 
 ## 
