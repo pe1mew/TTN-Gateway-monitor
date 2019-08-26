@@ -45,10 +45,11 @@
 ## 2.25    | 24-8-2019  | Added inital processing of packet stats reported by TTN, added UNIX temestamp to registry data. 
 ## 2.26    | 25-8-2019  | Added use of command line arguments
 ## 2.27    | 25-8-2019  | Added configuration of timezone
+## 2.28    | 26-8-2019  | Added test function. Invoked when CRONTAB_INTERVAL is set 0
 ##
 
 VERSION_MAYOR = "2"   # shall be string!
-VERSION_MINOR = "27"  # shall be string!
+VERSION_MINOR = "28"  # shall be string!
 
 # import libraries
 import sys                  # commanline arguments
@@ -167,7 +168,7 @@ if len(sys.argv[1:]) != 2 :
 ## EUI of the gateway to be monitored as specified in TTN Console
 GATEWAY_ID = sys.argv[1]
 ## Interval in seconds at which the script is executed in crontab
-CRONTAB_INTERVAL = sys.argv[2]
+CRONTAB_INTERVAL = int(sys.argv[2])
 
 ## Fixed configuration parameters of the script
 
@@ -191,7 +192,7 @@ downlink = 0
 uplinkPackets = 0
 downlinkPackets = 0
 oldUplinkPackets = 0
-
+oldDownlinkPackets = 0
 
 
 ## check for status file and open it else create it and prepare for usage
@@ -283,24 +284,29 @@ readableLastTime = datetime.datetime.fromtimestamp(lastTime).strftime('%H:%M:%S 
 readableTotalDownTime = display_time(totalDownTime, 4)
 upMessage = "Gateway \""+GATEWAY_ID+"\" is back in operation since "+readableLastTime+". Total down time was "+readableTotalDownTime+". ["+VERSION_MAYOR+"."+VERSION_MINOR+"]"
 
-# Process states
-if ( delta > KEEPALIVE_TIMEOUT_S ):
-    down += 1
-    write_registry_file()
-    if ( down == 1 ):
-        currentDownTime = currentTime
-        write_registry_file()
-        sendSlack(downMessage)
-        sendTweet(downMessage)
-    if ( down > 1 ):
-        if ((down * CRONTAB_INTERVAL) % 1800 == 0):
-            sendSlack(downMessage)
+if (CRONTAB_INTERVAL == 0):
+    # Test message
+    testMessage = "Gateway \""+GATEWAY_ID+"\" status: Last activity: "+readableLastTime+". Total received packets: "+str(uplinkPackets)+", Total transmitted packets: "+str(downlinkPackets)+". Testing script version: "+VERSION_MAYOR+"."+VERSION_MINOR+"."
+    sendSlack(testMessage)
+    sendTweet(testMessage)
 else:
-    if ( down > 0 ):
-        down = 0
+    # Process states
+    if ( delta > KEEPALIVE_TIMEOUT_S ):
+        down += 1
         write_registry_file()
-        sendSlack(upMessage)
-        sendTweet(upMessage)
+        if ( down == 1 ):
+            currentDownTime = currentTime
+            write_registry_file()
+            sendSlack(downMessage)
+            sendTweet(downMessage)
+        if ( down > 1 ):
+            if ((down * CRONTAB_INTERVAL) % 1800 == 0):
+                sendSlack(downMessage)
+    else:
+        if ( down > 0 ):
+            down = 0
+            write_registry_file()
+            sendSlack(upMessage)
+            sendTweet(upMessage)
 
-    write_registry_file()
-
+        write_registry_file()
