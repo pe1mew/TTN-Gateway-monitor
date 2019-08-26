@@ -1,0 +1,70 @@
+@startuml
+
+' ---------------------------------------------------------------------------
+'
+'  This file is part of the TTN Gateway monitoring solution by RFSee.
+'
+'  The script is free software:
+'  you can redistribute it and/or modify it under the terms of a Creative
+'  Commons Attribution-NonCommercial 4.0 International License
+'  (http://creativecommons.org/licenses/by-nc/4.0/) by
+'  PE1MEW (http://rfsee.nl) E-mail: remko@rfsee.nl
+'
+'  The TTN gateway motioring script is distributed in the hope that
+'  it will be useful, but WITHOUT ANY WARRANTY; without even the
+'  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+'  PURPOSE.
+'
+' ---------------------------------------------------------------------------
+
+title Flowchart TTN gateway monitor script 
+
+start
+note left: Script start: Initialisation
+
+partition Initialization {
+:Initialisation; 
+note left: Read settings for Twitter and Slack
+
+:Read history file;
+if (Can history file be read?) then (yes)
+    :Read data from file;
+    if (Is version OK?) then (yes)
+    else (no)
+        :Update history file;
+    endif
+else (no)
+    :Create history file;
+endif
+:Save history data locally;
+}
+
+stop
+start
+note left: Functional description of script
+
+partition Processing {
+:Calculate intermediate variables;
+if (Gateway is down?) then (yes)
+    if (Gateway was not down?) then (yes)
+        :Send "Down-status" messages.;
+    else (no)
+    endif
+    if (Gateway was down before?) then (yes)
+        if (Gateway is down at a multiple of 30 minutes) then (yes)
+            :Send "Down-status" message on Slack;
+        else (no)
+        endif
+    else (no)
+    endif
+else (no)
+    if (Gateway was down before?) then (yes)
+        :Send "Up-status" messages.;
+    else (no)
+    endif
+endif
+}
+
+stop
+
+@enduml

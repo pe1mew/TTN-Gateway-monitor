@@ -2,7 +2,7 @@
 
 #########################################################################
 ##
-##  This file is part of the TTN Gateway moitoring solution by RFSee.
+##  This file is part of the TTN Gateway monitoring solution by RFSee.
 ##
 ##  The script is free software:
 ##  you can redistribute it and/or modify it under the terms of a Creative
