@@ -112,11 +112,19 @@ Your scripts are now setup to be executed.
 ## Prerequisites
 Before we run the script we have to setup access to Twitter and Slack and collect information from TTN about the gateway we will be monitoring. Keep track of all te information in a small ASCII logbook on, for example, notepad++. We than can simply copy all information to where we need it.
 ### Gateway-ID
-The gateway-ID is obtained trough Console at TTN. 
+The gateway-ID is obtained trough console at TTN as can be seen in the following example:
+
 ![TTN_Console_GW-ID](images/TTNConsoleGWID.png "TTN Console Gateway-IDs")
 
-
-
+A gateway ID can be in two formats depending on the packet forwarder used by the gateway:
+1. Packet forwarders that connect using the Semtech UDP protocol (such as the Semtech UDP Packet Forwarder). These gateways will be know as "eui-b827ebfffe87bd11" for the Gateway ID and shall be identified as such with the scipt.
+2. Packet forwarders that connect using the new TTN Gateway Connector protocol (such as the TTN Packet Forwarder). These gateways will be know with the 'human readable ID'such as: "han_gateway_1" for the Gateway ID and shall be identified as such with the scipt.
+```
+Copy the Gateway ID from TTN console to your notepad.
+```
+This gateway ID will be used as argument when calling the gateway monitor script.
+### Twitter API credentials
+To make tne neccessary preparations follw the tutorial <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api">"Getting started with the Twitter API"</a> and follow the instructions at <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/3">"Apply for a Twitter developer account"</a> and <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api/4">"Create a Twitter application"</a>
 
 
 
