@@ -14,7 +14,41 @@ With TTN V2-stack there is no solution for real-time monitoring. This might chan
 
 This script is inspired on the article <a href="https://www.disk91.com/2019/technology/lora/alarm-your-thethingsnetwork-gateway/">"Alarm your TheThingsNetwork gateway"</a> of Paul. The practical implementation using IFTT did not work for me as I do not like the idea of cluttering my Email with event messages. So I searched for alternative ways to get information published. 
 
-I found the solution for Twitter in <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api">"Getting started with the Twitter API"</a> and for Slack at <a href="https://api.slack.com/incoming-webhooks">"Send data into Slack in real-time"</a>
+I found the solution for Twitter in <a href="https://projects.raspberrypi.org/en/projects/getting-started-with-the-twitter-api">"Getting started with the Twitter API"</a> and for Slack at <a href="https://api.slack.com/incoming-webhooks">"Send data into Slack in real-time"</a> .
+# Functionality
+The script is run at regular intervals (5 minutes by default) where it requests the status of a gateway from the V2-stack of TTN. This actual status information is than evaluated in combination with (locally stored) historical status information. As a result of the evaluation the script determines if the gateway is "up" or "down".
 
-.
+A gateway is assumed to be "down" or "off-line" when the gateway is not "heard" for a period longer than 120 seconds by the V2-stack.
 
+- When the observed gateway is found to be "up" and the previous state ws not down no message is sent.
+- When the observed gateway is found to be "down" a message is sent on Twitter and Slack that states for how long the gateway is down. This message is repeated every 30 minutes on Slack (Not Twitter) as a reminder.
+- When the observed gateway is found to be "up" after being down, a message is sent on Twitter an Slack that states when the gateway has come back on-line and for how long the gateway was off-line.
+# Implementation
+The TTN V2-stack is offering gateway status in JSON-format over the link: "http://noc.thethingsnetwork.org:8085/api/v2/gateways/<gateway_id>". The JSON struct delivered is presented below:
+```
+{
+    "timestamp": "2019-08-22T08:23:44.121907589Z",
+    "authenticated": true,
+    "uplink": "13169328",
+    "downlink": "78539",
+    "location": {
+        "latitude": 52.215855,
+        "longitude": 5.963744,
+        "altitude": 45
+    },
+    "frequency_plan": "EU_863_870",
+    "platform": "IMST + Rpi",
+    "gps": {
+        "latitude": 52.215855,
+        "longitude": 5.963744,
+        "altitude": 45
+    },
+    "time": "1566462224121907589",
+    "rx_ok": 13169328,
+    "tx_in": 78539
+}
+```
+From this struct the field "time", "rx_ok" and "tx_in" are being used.
+- "time", is the epoch time (UTC!) in seconds at which the last message was received from the gateway by the V2-stack
+- "rx_ok", is the total number of uplink packets received from the gateway at the time stated in "time"
+- "tx_in", is the total number of downlink packets transmitted to the gateway at the time stated in "time"
