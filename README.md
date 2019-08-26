@@ -153,7 +153,7 @@ crontab -e
 ```
 Add the following line at the end of your crontab file. Make sure that <gateway-ID> is replaced by the gateway-ID of the gateway that you will monitor:
 ```
-*/5 * * * * ~/gwstatus/gwmonitor.sh <gateway-ID> 300 >> /var/log/gwmonitor.log 2>&1
+*/5 * * * * cd ~/gwstatus && ./gwmonitor.sh eui-0031552048001a03 300 >> /var/log/gwmonitor.log$
 ```
 The part ">> /var/log/gwmonitor.log 2>&1" will ensure that outpur from the script is stored in a logfile for anlysis afterwards.
 
