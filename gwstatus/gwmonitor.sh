@@ -26,11 +26,11 @@
 ## Gateway is considered offline or down.
 ##
 ## \author Remko Welling (remko@rfsee.nl)
-## \date 23-8-2019
+## \date 26-8-2019
 ##
-## \todo Add functionality to do something sensible with up- and dowlink packet count
+## \todo Add functionality to do something sensible with up- and dowlink packet count 
 ##
-## \note Please not that this script is work in progress! There is still a lot of 
+## \note Please not that this script is work in progress! There is still a lot of
 ##       debugging commands in the script and unfinished code
 ##
 ## #Version history
@@ -44,12 +44,15 @@
 ## 2.24    | 23-8-2019  | Added readable time to up message, Added 30 minute interval in status when gateway is down
 ## 2.25    | 24-8-2019  | Added inital processing of packet stats reported by TTN, added UNIX temestamp to registry data. 
 ## 2.26    | 25-8-2019  | Added use of command line arguments
+## 2.27    | 25-8-2019  | Added configuration of timezone
+##
 
 VERSION_MAYOR = "2"   # shall be string!
-VERSION_MINOR = "26"  # shall be string!
+VERSION_MINOR = "27"  # shall be string!
 
-import sys # commanline arguments
-import requests # web requests end posts
+# import libraries
+import sys                  # commanline arguments
+import requests             # web requests end posts
 import time
 import datetime
 from datetime import date
@@ -172,7 +175,8 @@ CRONTAB_INTERVAL = sys.argv[2]
 STATUS_URL = "http://noc.thethingsnetwork.org:8085/api/v2/gateways/"
 ## Timeout in seconds before the script will detect possible off-line of the gateway
 KEEPALIVE_TIMEOUT_S = 120
-
+## Set timezone with respect to UTC (in hours)
+TIMEZONE = 1 
 
 ## get current UTC time in unix timestamp
 UTCTime = datetime.datetime.utcnow()
@@ -186,6 +190,9 @@ uplink = 0
 downlink = 0
 uplinkPackets = 0
 downlinkPackets = 0
+oldUplinkPackets = 0
+
+
 
 ## check for status file and open it else create it and prepare for usage
 try:
@@ -263,7 +270,7 @@ lastTime = int(lastSeenParsed.strftime('%s'))
 #print(lastTime)
 
 ## calculate time difference and correct for time zone difference to UTC.
-delta=currentTime-lastTime+3600
+delta=currentTime-lastTime+(TIMEZONE*3600)
 #print(delta)
 
 totalDownTime = currentTime - oldDownTime
