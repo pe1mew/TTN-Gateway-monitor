@@ -69,3 +69,10 @@ The script is performing the following actions:
 
 ![Functional description](images/FlowChart_Functional.png "Functional description of script")
 
+## Periodic execution
+Periodic exectution of the script is implemented usig crontab that is available on any linux host OS. The crontab is configured to execute the script at an interval of 5 minutes. 
+
+To allow multiple gateways to be monitored using a single script arguments are mandatory to specifiy the gateway-ID and teh interval at which the scipt is called form crontab. The syntax of the monitor script is:
+```
+    ./gwmonitor <gateway_name> <cron_interval_seconds>
+```
