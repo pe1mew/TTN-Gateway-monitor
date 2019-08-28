@@ -50,7 +50,7 @@
 ##
 
 VERSION_MAYOR = "2"   # shall be string!
-VERSION_MINOR = "28"  # shall be string!
+VERSION_MINOR = "29"  # shall be string!
 
 # import libraries
 import sys                  # commanline arguments
@@ -184,6 +184,7 @@ TIMEZONE = 1
 UTCTime = datetime.datetime.utcnow()
 currentTime = int(time.mktime(UTCTime.timetuple()))
 newDownTime = currentTime
+oldTime = currentTime
 
 ## initialze variables used
 version = VERSION_MAYOR + VERSION_MINOR
