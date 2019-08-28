@@ -23,6 +23,15 @@ A gateway is assumed to be "down" or "off-line" when the gateway is not "heard" 
 - When the observed gateway is found to be "up" and the previous state ws not down no message is sent.
 - When the observed gateway is found to be "down" a message is sent on Twitter and Slack that states for how long the gateway is down. This message is repeated every 30 minutes on Slack (Not Twitter) as a reminder.
 - When the observed gateway is found to be "up" after being down, a message is sent on Twitter an Slack that states when the gateway has come back on-line and for how long the gateway was off-line.
+
+Tweet when a gateway is observed to be "down":
+![DownTweet](images/Tweet_Down-message.png "Tweet of down-message")
+
+Tweet when a gateway is observed to be "up":
+![UpTweet](images/Tweet_Up-message.png "Tweet of up-message")
+
+To see the script in action follow mt Twitter account RFSeeTweets at https://twitter.com/rfseetweets.
+
 # Implementation
 The TTN V2-stack is offering gateway status in JSON-format over the link: "http://noc.thethingsnetwork.org:8085/api/v2/gateways/<gateway_id>". The JSON struct delivered is presented below:
 ```
@@ -151,17 +160,20 @@ Start editing the crontab configuration file:
 ```
 crontab -e
 ```
-Add the following line at the end of your crontab file. Make sure that <gateway-ID> is replaced by the gateway-ID of the gateway that you will monitor:
+Add the following line at the end of your crontab file. Make sure that 'gateway-ID' is replaced by the gateway-ID of the gateway that you will monitor:
 ```
-*/5 * * * * cd ~/gwstatus && ./gwmonitor.sh eui-0031552048001a03 300 >> /var/log/gwmonitor.log$
+*/5 * * * * cd ~/gwstatus && ./gwmonitor.sh <gateway-ID> 300 >> /var/log/gwmonitor.log$
 ```
 The part ">> /var/log/gwmonitor.log 2>&1" will ensure that outpur from the script is stored in a logfile for anlysis afterwards.
-
-
-
-
-
+#### Note
+It might be possible that the user executing the script is not allowed to write the log file. To solve this issue add the user to the group owning /var/log directory.
+## Testing your installation
+To test your installation run the script with the repeat interval of '0'. This will make the script send a test message on both Slack and Twitter.
+```
+./gwmonitor.sh <gateway-ID> 0
+```
+Tweet when a testing the script:
+![TestTweet](images/Tweet_testMessage.png "Tweet of test-message")
 
 # Modifications(hacks)
-In the highly likely situation where you want to tailor the script to your owen needs I provide some hints:
-1. 
+To enable or disable Tweesting or posting messages on Slack disable the calls "sendSlack(upMessage)" and/or "sendTweet(upMessage)".
