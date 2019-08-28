@@ -47,10 +47,11 @@
 ## 2.27    | 25-8-2019  | Added configuration of timezone
 ## 2.28    | 26-8-2019  | Added test function. Invoked when CRONTAB_INTERVAL is set 0
 ## 2.29    | 28-8-2019  | Fixed: #1 "totalDownTime is incorrect when gateway comes back on line" added writing old down time at handling states.
+## 2.30    | 28-8-2019  | Modified messages, added #hastag and link to github repository.
 ##
 
 VERSION_MAYOR = "2"   # shall be string!
-VERSION_MINOR = "29"  # shall be string!
+VERSION_MINOR = "30"  # shall be string!
 
 # import libraries
 import sys                  # commanline arguments
@@ -184,6 +185,7 @@ TIMEZONE = 1
 UTCTime = datetime.datetime.utcnow()
 currentTime = int(time.mktime(UTCTime.timetuple()))
 newDownTime = currentTime
+oldDownTime = currentTime
 oldTime = currentTime
 
 ## initialze variables used
@@ -280,15 +282,15 @@ totalDownTime = currentTime - oldDownTime
 
 ## Compose messages
 timeToLastSeen = display_time(delta, 4)
-downMessage = "Gateway \""+GATEWAY_ID+"\" seems down! Last message was "+timeToLastSeen+" ago. ["+VERSION_MAYOR+"."+VERSION_MINOR+"]"
+downMessage = "Gateway \""+GATEWAY_ID+"\" seems down! Last message was "+timeToLastSeen+" ago. ["+VERSION_MAYOR+"."+VERSION_MINOR+"] #TTNGWMonitor"
 
 readableLastTime = datetime.datetime.fromtimestamp(lastTime).strftime('%H:%M:%S %Y-%m-%d')
 readableTotalDownTime = display_time(totalDownTime, 4)
-upMessage = "Gateway \""+GATEWAY_ID+"\" is back in operation since "+readableLastTime+". Total down time was "+readableTotalDownTime+". ["+VERSION_MAYOR+"."+VERSION_MINOR+"]"
+upMessage = "Gateway \""+GATEWAY_ID+"\" is back in operation since "+readableLastTime+". Total down time was "+readableTotalDownTime+". ["+VERSION_MAYOR+"."+VERSION_MINOR+"] #TTNGWMonitor"
 
 if (CRONTAB_INTERVAL == 0):
     # Test message
-    testMessage = "Gateway \""+GATEWAY_ID+"\" status: Last activity: "+readableLastTime+". Total received packets: "+str(uplinkPackets)+", Total transmitted packets: "+str(downlinkPackets)+". Testing script version: "+VERSION_MAYOR+"."+VERSION_MINOR+"."
+    testMessage = "Gateway \""+GATEWAY_ID+"\" status: Last activity: "+readableLastTime+". Total received packets: "+str(uplinkPackets)+", Total transmitted packets: "+str(downlinkPackets)+". Testing #TTNGWMonitor script version: "+VERSION_MAYOR+"."+VERSION_MINOR+". https://github.com/pe1mew/TTN-Gateway-monitor"
     sendSlack(testMessage)
     sendTweet(testMessage)
 else:
