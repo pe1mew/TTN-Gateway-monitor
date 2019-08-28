@@ -46,6 +46,7 @@
 ## 2.26    | 25-8-2019  | Added use of command line arguments
 ## 2.27    | 25-8-2019  | Added configuration of timezone
 ## 2.28    | 26-8-2019  | Added test function. Invoked when CRONTAB_INTERVAL is set 0
+## 2.29    | 28-8-2019  | Fixed: #1 "totalDownTime is incorrect when gateway comes back on line" added writing old down time at handling states.
 ##
 
 VERSION_MAYOR = "2"   # shall be string!
@@ -125,7 +126,7 @@ registryData = {
 ## \pre read actual time and set it.
 def write_registry_file():
     registryData['down'] = down
-    registryData['down_time'] = currentDownTime
+    registryData['down_time'] = newDownTime
     registryData['version'] = version
     registryData['uplink'] = uplinkPackets
     registryData['downlink'] = downlinkPackets
@@ -182,7 +183,7 @@ TIMEZONE = 1
 ## get current UTC time in unix timestamp
 UTCTime = datetime.datetime.utcnow()
 currentTime = int(time.mktime(UTCTime.timetuple()))
-currentDownTime = currentTime
+newDownTime = currentTime
 
 ## initialze variables used
 version = VERSION_MAYOR + VERSION_MINOR
@@ -293,9 +294,10 @@ else:
     # Process states
     if ( delta > KEEPALIVE_TIMEOUT_S ):
         down += 1
+        newDownTime = oldDownTime # Set down-time to down-time read from file to preserve it
         write_registry_file()
         if ( down == 1 ):
-            currentDownTime = currentTime
+            newDownTime = currentTime # Set down-time to current time at first detection of down
             write_registry_file()
             sendSlack(downMessage)
             sendTweet(downMessage)
