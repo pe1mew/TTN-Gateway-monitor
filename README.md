@@ -32,6 +32,12 @@ Tweet when a gateway is observed to be "up":
 
 To see the script in action follow mt Twitter account RFSeeTweets at https://twitter.com/rfseetweets.
 
+# Limitations
+There are some limitations or down-sides to this solution: The Things network is a community network that is provided as-is. this means that the network is operational at best-effort and that no service level agreements are in place!. As a result of this The things network or parts of this service can be down or unavailable for unlimited time.
+
+The solution presented here is 100% dependant on the availabilty of the API that presents gateway status. As a result of that, this script may not present the correct or actual status when the API fails or is down. 
+
+History shows that while gateways are operational and applications run fine, the API this scipt uses has been unreliable for periods of time. This will affect the operation of the script. therefore the script is for indication purpose only. Do not rely on the presented results or make systems depending on this script for its operation!
 # Implementation
 The TTN V2-stack is offering gateway status in JSON-format over the link: "http://noc.thethingsnetwork.org:8085/api/v2/gateways/<gateway_id>". The JSON struct delivered is presented below:
 ```
