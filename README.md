@@ -1,6 +1,13 @@
 # TTN-Gateway-monitor
 A script that monitors a TTN gateway and sends status and updates to Twitter and Slack
 
+# General notice
+
+```diff
+- The interface used in this script to interface with TTN is DEPRECIATED and has proven unreliable.
+- This repository is now here for historic and reference purposes.
+```
+
 ## Disclaimer
 The PE1MEW TTN Gateway monitoring script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; Without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ## License
